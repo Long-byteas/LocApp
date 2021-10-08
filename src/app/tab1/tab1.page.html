@@ -1,0 +1,21 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list [hidden]="autocompleteItems.length == 0">
+    <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
+      {{ item.description }}
+    </ion-item>
+  </ion-list>
+  <div #map id="map" [hidden]="!user"></div>
+  <div *ngIf ="user">
+    <ion-button (click)="startTracking()" *ngIf="!isTracking">
+      <ion-icon name ="locate" slot="start">
+        start Tracking
+      </ion-icon>
+    </ion-button>
+  </div>
+</ion-content>
