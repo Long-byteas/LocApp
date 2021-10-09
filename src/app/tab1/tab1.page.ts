@@ -4,7 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { Plugins } from '@capacitor/core';
 import { Observable } from 'rxjs';
 import { Geolocation } from '@ionic-native/geolocation/ngx'
-
+import {map} from 'rxjs/operators'
 
 declare var google;
 
@@ -89,16 +89,42 @@ export class Tab1Page {
   }
 
   login(){
-    this.afAu.signInAnonymously().then(user => {
-      this.user = user;
+    this.afAu.signInAnonymously().then(resp => {
+      this.user = resp.user;
+      console.log(this.user)
       this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
       ,ref => ref.orderBy('timestamp'));
       console.log(this.locationsCollection)
       // load data 
+      this.locations = this.locationsCollection.snapshotChanges().pipe(map(actions => actions.map(a => {
+
+        const data = a.payload.doc.data()
+        const id = a.payload.doc.id;
+        return {id, ...data};
+      })));
       console.log("whatttt")
+      console.log("whatttt")
+      this.locations.subscribe(locations =>{
+        this.updateMapOnLoc(locations);
+      })
       // update map
 
     })
+  }
+  updateMapOnLoc(locations){
+    this.clearMarkers();
+    this.markers = []
+    console.log(locations)
+    locations.forEach(element => {
+      console.log(element)
+      var latlong = new google.maps.LatLng(element.lat,element.lng)
+      let marker = new google.maps.Marker({
+        position: latlong,
+        map: this.map
+      });
+      this.markers.push(marker);
+      this.map.setCenter(latlong);
+    });
   }
 
   loadMap() {
@@ -127,11 +153,12 @@ export class Tab1Page {
       });
       this.markers.push(marker);
       this.map.setCenter(position);
+      
 
       this.geocoder.geocode({ 'latLng': position },(results, status) => {
         console.log(results);
         if(status === 'OK' && results[0]){
-          
+          this.addNewLocation(lat,lng,resp.timestamp,results[0].formatted_address);
         }
       })
      });
@@ -139,5 +166,17 @@ export class Tab1Page {
   }
   stopTracking(){
 
+  }
+
+  addNewLocation(lat, lng, timestamp,place) {
+    this.locationsCollection.add({
+      lat,
+      lng,
+      timestamp,
+      place
+    });
+  }
+  deleteLocation(pos) {
+    this.locationsCollection.doc(pos.id).delete();
   }
 }
