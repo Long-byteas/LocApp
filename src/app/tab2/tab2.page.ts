@@ -44,4 +44,8 @@ export class Tab2Page {
   deleteLocation(pos) {
     this.locationsCollection.doc(pos.id).delete();
   }
+  
+  ratingLocation(pos){
+    console.log(pos)
+  }
 }

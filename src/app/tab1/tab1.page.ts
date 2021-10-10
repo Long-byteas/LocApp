@@ -30,7 +30,6 @@ export class Tab1Page {
   MapAPI = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBsfw-I1JOKEYgCw0Bo7JJkR8sksIL3Rxw"
 
   constructor( private afAu : AngularFireAuth,private afs:AngularFirestore,private geolocation:Geolocation, public zone: NgZone,) {
-    this.login();
     this.GoogleAutocomplete = new google.maps.places.AutocompleteService();
     this.autocomplete = { input: '' };
     this.autocompleteItems = [];
@@ -71,6 +70,7 @@ export class Tab1Page {
    this.loadMap();
    console.log("hello")
   }
+
 
   updateSearchResults() {
     if (this.autocomplete.input === '') {
@@ -128,6 +128,8 @@ export class Tab1Page {
   }
 
   loadMap() {
+    console.log(this.loadMap)
+    this.login();
     let latLng = new google.maps.LatLng(-41.28666552, 174.772996908);
     let mapOptions = {
       center: latLng,
