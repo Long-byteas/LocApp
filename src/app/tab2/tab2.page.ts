@@ -5,6 +5,8 @@ import { Plugins } from '@capacitor/core';
 import { Observable } from 'rxjs';
 import { Geolocation } from '@ionic-native/geolocation/ngx'
 import {map} from 'rxjs/operators'
+import { Router ,ActivatedRoute} from '@angular/router';
+
 
 @Component({
   selector: 'app-tab2',
@@ -15,7 +17,7 @@ export class Tab2Page {
   locations:Observable<any>;
   locationsCollection:AngularFirestoreCollection<any>;
   user = null;
-  constructor(private afAu : AngularFireAuth,private afs:AngularFirestore,private geolocation:Geolocation, public zone: NgZone) {
+  constructor(private afAu : AngularFireAuth,private afs:AngularFirestore, public zone: NgZone,private router: Router,private route: ActivatedRoute) {
     this.login();
   }
 
@@ -24,7 +26,7 @@ export class Tab2Page {
       this.user = resp.user;
       console.log(this.user)
       this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
-      ,ref => ref.orderBy('timestamp'));
+      ,ref => ref.orderBy('timestamp','desc'));
       console.log(this.locationsCollection)
       // load data with id
       this.locations = this.locationsCollection.snapshotChanges().pipe(map(actions => actions.map(a => {
@@ -46,6 +48,7 @@ export class Tab2Page {
   }
   
   ratingLocation(pos){
-    console.log(pos)
+    this.router.navigate(['rating',pos],{ relativeTo: this.route })
+    //console.log(pos)
   }
 }

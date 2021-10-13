@@ -1,8 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    
     <ion-title>
-      Tab 5
+      <ion-button color= "light" (click)="back()">
+        <ion-icon name="arrow-back-outline"></ion-icon>
+      </ion-button>
+      Rating Location
     </ion-title>
+
   </ion-toolbar>
 </ion-header>
 
@@ -13,6 +18,32 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 5 page"></app-explore-container>
+
+
+  <ion-item>
+    <ion-range color="medium" min="1" max="5" step="1" snaps="true" [(ngModel)]="happy" >
+      <ion-icon slot="start" name="star-outline"></ion-icon>
+      <ion-icon size="medium" slot="end" name="star-outline"></ion-icon>
+    </ion-range>
+  </ion-item>
+
+  <ion-item>
+    <ion-range color="medium" min="1" max="5" step="1" snaps="true" [(ngModel)]="star" >
+      <ion-icon slot="end" name="happy-outline"></ion-icon>
+      <ion-icon slot="start" name="sad-outline"></ion-icon>
+    </ion-range>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked" class="my-label">Comments</ion-label>
+    <ion-textarea [(ngModel)]="comment" spellcheck=true rows="10" autoGrow=true autocapitalize=true placeholder="your awesome comments"></ion-textarea>
+  </ion-item>
+
+  
+  <ion-footer>
+    <ion-button color= "light" (click)="updateRating()">
+      Submit
+    </ion-button>
+  </ion-footer>
   
 </ion-content>

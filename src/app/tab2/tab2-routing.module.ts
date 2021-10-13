@@ -7,11 +7,14 @@ const routes: Routes = [
   {
     path: '',
     component: Tab2Page,
+    pathMatch: 'full'
   },
   {
-    path: 'details',
-    component: Tab5Page
-  }
+    path: 'rating',
+    component: Tab5Page,
+    pathMatch: 'full'
+  },
+  
 ];
 
 @NgModule({
