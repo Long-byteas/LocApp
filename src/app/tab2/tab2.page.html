@@ -12,7 +12,7 @@
               {{ pos.timestamp | date:'short' }}
             </p>
           </ion-label>
-          <ion-icon name="star-half-outline" *ngIf = "pos.star != null" ></ion-icon>
+          <ion-icon name="chatbox-ellipses-outline"  *ngIf = "pos.star != null" ></ion-icon>
         </ion-item>
  
         <ion-item-options side="end">
@@ -22,11 +22,19 @@
         </ion-item-options>
 
         <ion-item-options side="start">
+          <ion-item-option color="secondary" (click)="selectPos(pos)" *ngIf="!pos.tag">
+            <ion-icon name="navigate-circle-outline" slot="icon-only"></ion-icon>
+          </ion-item-option>
+
+          <ion-item-option color="light" (click)="deSelectPos(pos)" *ngIf="pos.tag">
+            <ion-icon name="navigate-circle-outline" slot="icon-only"></ion-icon>
+          </ion-item-option>
+
           <ion-item-option color="primary" (click)="ratingLocation(pos)">
-            <ion-icon name="pricetag-outline" slot="icon-only"></ion-icon>
+            <ion-icon name="clipboard-outline" slot="icon-only"></ion-icon>
           </ion-item-option>
         </ion-item-options>
- 
+
       </ion-item-sliding>
     </ion-list>
     

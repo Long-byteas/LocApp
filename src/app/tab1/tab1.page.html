@@ -1,8 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place">
-      
-
     </ion-searchbar>
     
   </ion-toolbar>
@@ -19,13 +17,13 @@
   <div *ngIf ="user">
     <ion-button (click)="startTracking()">
       <ion-icon name ="locate" slot="start">
-        start Tracking
       </ion-icon>
+      start Tracking
     </ion-button>
-    <ion-button (click)="pushLocationInMarkerFake()" >
+    <ion-button (click)="pushLocationInMarkerFake()" *ngIf="markersFake.length != 0">
       <ion-icon name ="golf-outline" slot="start">
-        locating
       </ion-icon>
+      Mark
     </ion-button>
     <ion-item>
       <ion-label>

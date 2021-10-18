@@ -5,7 +5,8 @@ import { Plugins } from '@capacitor/core';
 import { Observable } from 'rxjs';
 import { Geolocation } from '@ionic-native/geolocation/ngx'
 import {map} from 'rxjs/operators'
-
+import { ProjectService } from '../service/database.service';
+import { ActivatedRoute } from '@angular/router';
 
 declare var google;
 
@@ -25,6 +26,7 @@ export class Tab1Page {
   geocoder: any
   isFinding =  false;
   infoWindow:any;
+  pos:any;
   //mockMarker:any;
   //map 
   @ViewChild('map') mapElement: ElementRef;
@@ -34,12 +36,11 @@ export class Tab1Page {
 
   MapAPI = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBsfw-I1JOKEYgCw0Bo7JJkR8sksIL3Rxw"
 
-  constructor( private afAu : AngularFireAuth,private afs:AngularFirestore,private geolocation:Geolocation, public zone: NgZone,) {
+  constructor( private route: ActivatedRoute, private afAu : AngularFireAuth,private afs:AngularFirestore,private geolocation:Geolocation, public zone: NgZone,private projectService:ProjectService) {
     this.GoogleAutocomplete = new google.maps.places.AutocompleteService();
     this.autocomplete = { input: '' };
     this.autocompleteItems = [];
     this.geocoder = new google.maps.Geocoder;
-
   }
   
   clearMarkers(){
@@ -90,7 +91,7 @@ export class Tab1Page {
       map: this.map
     });
     marker.addListener("dblclick", () => {
-      marker.setMap(null);
+      this.clearMarkerFake();
       console.log(this.markersFake.length)
     });
     
@@ -123,28 +124,30 @@ export class Tab1Page {
   }
 
   login(){
-    this.afAu.signInAnonymously().then(resp => {
-
+    this.projectService.connect().then(resp => {
       this.user = resp.user;
       console.log(this.user)
-      this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
-      ,ref => ref.orderBy('timestamp'));
+      this.locationsCollection = this.projectService.getDataCollection(this.user.uid);
       console.log(this.locationsCollection)
-      // load data 
+      
+      // detect data if it change data 
       this.locations = this.locationsCollection.snapshotChanges().pipe(map(actions => actions.map(a => {
-
         const data = a.payload.doc.data()
         const id = a.payload.doc.id;
         return {id, ...data};
       })));
+      // update map
       this.locations.subscribe(locations =>{
         this.updateMapOnLoc(locations);
       })
-      
-      // update map
+      console.log();
 
     })
+
+    
+
   }
+  
   updateMapOnLoc(locations){
     this.clearMarkers();
     this.markers = []
@@ -158,6 +161,7 @@ export class Tab1Page {
         position: latlong,
         map: this.map
       });
+      //showing up the info
       marker.addListener("click", () => {
         this.map.setZoom(20);
         this.map.setCenter(marker.getPosition());
@@ -165,12 +169,16 @@ export class Tab1Page {
         this.infoWindow = new google.maps.InfoWindow({
           position: marker.getPosition(),
         });
-        this.infoWindow.setContent(element.place);
+        let date = new Date(element.timestamp).toLocaleString()
+
+        this.infoWindow.setContent(element.place+' store at '+ date);
         this.infoWindow.open(marker.getMap(),marker);
       });
 
       this.markers.push(marker);
-      this.map.setCenter(latlong);
+      if(element.tag == true ){
+        this.map.setCenter(latlong)
+      }
     });
   }
 
@@ -240,12 +248,13 @@ export class Tab1Page {
 
   addNewLocation(lat, lng, timestamp,place) {
     console.log("addddd"+lat+lng+timestamp+place)
-
+    let tag = false;
     this.locationsCollection.add({
       lat,
       lng,
       timestamp,
-      place
+      place,
+      tag
     });
   }
   deleteLocation(pos) {

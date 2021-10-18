@@ -51,4 +51,16 @@ export class Tab2Page {
     this.router.navigate(['rating',pos],{ relativeTo: this.route })
     //console.log(pos)
   }
+
+  selectPos(pos){
+    this.locationsCollection.doc(pos.id).update({
+      tag:true,
+    })
+  }
+
+  deSelectPos(pos){
+    this.locationsCollection.doc(pos.id).update({
+      tag:false,
+    })
+  }
 }
