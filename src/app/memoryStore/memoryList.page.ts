@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Geolocation } from '@ionic-native/geolocation/ngx'
 import {map} from 'rxjs/operators'
 import { Router ,ActivatedRoute} from '@angular/router';
+import { ProjectService } from '../service/database.service';
 
 @Component({
   selector: 'app-tab3',
@@ -17,20 +18,18 @@ export class Tab3Page {
   locationsCollection:AngularFirestoreCollection<any>;
   highToLow=true;
   user = null;
-  constructor(private afAu : AngularFireAuth,private afs:AngularFirestore, public zone: NgZone,private router: Router,private route: ActivatedRoute) {
+  constructor(private afAu : AngularFireAuth,private afs:AngularFirestore, public zone: NgZone,private router: Router,private route: ActivatedRoute,private projectService:ProjectService) {
     this.login();
   }
 
   login(){
-    this.afAu.signInAnonymously().then(resp => {
+    this.projectService.connect().then(resp => {
       this.user = resp.user;
       console.log(this.user)
       if(this.highToLow){
-        this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
-        ,ref => ref.orderBy('star'));
+        this.locationsCollection = this.projectService.getDataCollectionDesc(this.user.uid,'star');
       } else {
-        this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
-        ,ref => ref.orderBy('star','desc'));
+        this.locationsCollection = this.projectService.getDataCollectionAsc(this.user.uid,'star');
       }
       console.log(this.locationsCollection)
       // load data with id
@@ -49,7 +48,8 @@ export class Tab3Page {
  
 
   deleteLocation(pos) {
-    this.locationsCollection.doc(pos.id).delete();
+    // this.locationsCollection.doc(pos.id).delete();
+    this.projectService.delete(this.locationsCollection,pos.id)
   }
   
   memoryWriter(pos){

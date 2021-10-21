@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators'
 import {Location} from '@angular/common';
 import { AlertController } from '@ionic/angular';
+import { ProjectService } from 'src/app/service/database.service';
 
 @Component({
   selector: 'app-tab5',
@@ -21,7 +22,7 @@ export class Tab5Page {
   locations:Observable<any>;
   locationsCollection:AngularFirestoreCollection<any>;
   user = null;
-  constructor(private route: ActivatedRoute, public alertController: AlertController,private afAu : AngularFireAuth,private afs:AngularFirestore, private location: Location) {}
+  constructor(private route: ActivatedRoute, public alertController: AlertController,private afAu : AngularFireAuth,private afs:AngularFirestore, private router: Router,private projectService:ProjectService) {}
 
   ngOnInit() {
     this.pos = this.route.snapshot.paramMap;
@@ -35,10 +36,9 @@ export class Tab5Page {
   }
 
   login(){
-    this.afAu.signInAnonymously().then(resp => {
+    this.projectService.connect().then(resp => {
       this.user = resp.user;
-      this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
-      ,ref => ref.orderBy('timestamp'));
+      this.locationsCollection = this.projectService.getDataCollectionAsc(this.user.uid,'timestamp');
       // load data with id
       this.locations = this.locationsCollection.snapshotChanges().pipe(map(actions => actions.map(a => {
         // push id into data 
@@ -54,16 +54,12 @@ export class Tab5Page {
     })
   }
   updateRating(){
-
-    this.locationsCollection.doc(this.pos.get('id')).update({star:this.star,
-      comment:this.comment,
-      happy:this.happy
-    })
+    this.projectService.updateRating(this.locationsCollection,this.pos.get('id'),this.star,this.comment,this.happy)
     this.back()
   }
   
   back(){
-    this.location.back();
+    this.router.navigate(['/tabs/tab2'],{ relativeTo: this.route })
   }
   reset(){
     this.alert()

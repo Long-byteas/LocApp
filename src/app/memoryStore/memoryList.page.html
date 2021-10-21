@@ -1,10 +1,12 @@
-<ion-header [translucent]="true">
-
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title> Memory to location </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-item>
-    <ion-label>High Star To Low</ion-label>
+    <ion-label>Rank from high star</ion-label>
     <ion-checkbox slot="end" value="pepperoni" checked={{highToLow}} (ionChange)=switchSort()></ion-checkbox>
   </ion-item>
 

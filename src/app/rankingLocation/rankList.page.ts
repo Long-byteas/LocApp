@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators'
 import { Router ,ActivatedRoute} from '@angular/router';
+import { ProjectService } from '../service/database.service';
 @Component({
   selector: 'app-tab4',
   templateUrl: 'rankList.page.html',
@@ -14,16 +15,15 @@ export class Tab4Page {
   locations:Observable<any>;
   locationsCollection:AngularFirestoreCollection<any>;
   user = null;
-  constructor(private afAu : AngularFireAuth,private afs:AngularFirestore, public zone: NgZone,private router: Router,private route: ActivatedRoute) {
+  constructor(private afAu : AngularFireAuth,private afs:AngularFirestore, public zone: NgZone,private router: Router,private route: ActivatedRoute,private projectService:ProjectService) {
     this.login();
   }
 
   login(){
-    this.afAu.signInAnonymously().then(resp => {
+    this.projectService.connect().then(resp => {
       this.user = resp.user;
       console.log(this.user)
-      this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
-      ,ref => ref.orderBy('star','asc'));
+      this.locationsCollection = this.projectService.getDataCollectionDesc(this.user.uid,'star');
       console.log(this.locationsCollection)
       // load data with id
       this.locations = this.locationsCollection.snapshotChanges().pipe(map(actions => actions.map(a => {
@@ -41,7 +41,7 @@ export class Tab4Page {
  
 
   deleteLocation(pos) {
-    this.locationsCollection.doc(pos.id).delete();
+    this.projectService.delete(this.locationsCollection,pos.id)
   }
   
   viewMemory(pos){

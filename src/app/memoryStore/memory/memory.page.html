@@ -1,15 +1,13 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    
-    <ion-title>
-      <ion-button color= "light" (click)="back()">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
-      MemoryWriter
-    </ion-title>
 
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title> MemoryWriter </ion-title>
   </ion-toolbar>
 </ion-header>
+
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
@@ -25,7 +23,7 @@
   </ion-item>
 
   <ion-footer>
-    <ion-button color= "light" (click)="updateMemory(textfield.value)">
+    <ion-button color= "light" shape="round"  expand="block" (click)="updateMemory(textfield.value)">
       Add
     </ion-button>
   </ion-footer>

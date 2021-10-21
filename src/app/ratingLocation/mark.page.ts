@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Geolocation } from '@ionic-native/geolocation/ngx'
 import {map} from 'rxjs/operators'
 import { Router ,ActivatedRoute} from '@angular/router';
+import { ProjectService } from '../service/database.service';
 
 
 @Component({
@@ -17,16 +18,15 @@ export class Tab2Page {
   locations:Observable<any>;
   locationsCollection:AngularFirestoreCollection<any>;
   user = null;
-  constructor(private afAu : AngularFireAuth,private afs:AngularFirestore, public zone: NgZone,private router: Router,private route: ActivatedRoute) {
+  constructor(private afAu : AngularFireAuth,private afs:AngularFirestore, public zone: NgZone,private router: Router,private route: ActivatedRoute,private projectService:ProjectService) {
     this.login();
   }
 
   login(){
-    this.afAu.signInAnonymously().then(resp => {
+    this.projectService.connect().then(resp => {
       this.user = resp.user;
       console.log(this.user)
-      this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
-      ,ref => ref.orderBy('timestamp','desc'));
+      this.locationsCollection = this.projectService.getDataCollectionDesc(this.user.uid,'timestamp');
       console.log(this.locationsCollection)
       // load data with id
       this.locations = this.locationsCollection.snapshotChanges().pipe(map(actions => actions.map(a => {
@@ -35,16 +35,13 @@ export class Tab2Page {
         const id = a.payload.doc.id;
         return {id, ...data};
       })));
-      //calling update
-      // update map
-
     })
   }
 
  
 
   deleteLocation(pos) {
-    this.locationsCollection.doc(pos.id).delete();
+    this.projectService.delete(this.locationsCollection,pos.id)
   }
   
   ratingLocation(pos){
@@ -53,14 +50,10 @@ export class Tab2Page {
   }
 
   selectPos(pos){
-    this.locationsCollection.doc(pos.id).update({
-      tag:true,
-    })
+    this.projectService.markLoc(this.locationsCollection,pos.id)
   }
 
   deSelectPos(pos){
-    this.locationsCollection.doc(pos.id).update({
-      tag:false,
-    })
+    this.projectService.demarkLoc(this.locationsCollection,pos.id)
   }
 }

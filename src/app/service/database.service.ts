@@ -16,16 +16,6 @@ export class ProjectService {
   // Use Service
   // Comment 
   // finish tab4
-    locations:Observable<any>;
-    locationsCollection:AngularFirestoreCollection<any>;
-    user = null;
-    GoogleAutocomplete: any;
-    GooglePlaces: any;
-    autocompleteItems: any;
-    autocomplete:any;
-    geocoder: any
-    isFinding =  false;
-    infoWindow:any;
 
   constructor(private afAu : AngularFireAuth,private afs:AngularFirestore,private geolocation:Geolocation, public zone: NgZone,) {
 
@@ -36,15 +26,52 @@ export class ProjectService {
    * @param id project ID
    * @returns An Observable of the target Project. Returns an empty Project on error
    */
-  getDataCollection(id):any {
+  getDataCollectionAsc(id,baseOn):any {
     return this.afs.collection(`locations/${id}/track`
-    ,ref => ref.orderBy('timestamp'));
+    ,ref => ref.orderBy(baseOn));
 
   }
+
+  getDataCollectionDesc(id,baseOn):any {
+    return this.afs.collection(`locations/${id}/track`
+    ,ref => ref.orderBy(baseOn,'desc'));
+
+  }
+
+  delete(collection,id){
+    collection.doc(id).delete();
+  }
+
+  markLoc(collection,id){
+    collection.doc(id).update({
+      tag:true,
+    })
+  }
+
+  demarkLoc(collection,id){
+    collection.doc(id).update({
+      tag:false,
+    })
+  }
+
+  updateMemory(collection,id,text){
+    collection.doc(id).update({
+      memory:text,
+    })
+  }
   
+  updateRating(collection,id,star,comment,happy){
+    collection.doc(id).update({star:star,
+      comment:comment,
+      happy:happy
+    })
+  }
   connect():any{
     return this.afAu.signInAnonymously()
   }
 
+  getCurrentLocation():any{
+    return this.geolocation.getCurrentPosition();
+  }
 
 }

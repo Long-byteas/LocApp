@@ -125,7 +125,7 @@ export class Tab1Page {
     this.projectService.connect().then(resp => {
       this.user = resp.user;
       console.log(this.user)
-      this.locationsCollection = this.projectService.getDataCollection(this.user.uid);
+      this.locationsCollection = this.projectService.getDataCollectionAsc(this.user.uid,'timestamp');
       console.log(this.locationsCollection)
       
       // detect data if it change data 
@@ -181,7 +181,6 @@ export class Tab1Page {
   }
 
   loadMap() {
-    console.log(this.loadMap)
     this.login();
     let latLng = new google.maps.LatLng(-41.28666552, 174.772996908);
     let mapOptions = {
@@ -203,7 +202,7 @@ export class Tab1Page {
   isTracking = false;
   startTracking(){
     this.isTracking  = true;
-    this.geolocation.getCurrentPosition().then((resp) => {
+    this.projectService.getCurrentLocation().then((resp) => {
       var lat = resp.coords.latitude;
       var lng = resp.coords.longitude;
       console.log(resp.coords.latitude)

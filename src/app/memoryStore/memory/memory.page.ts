@@ -6,6 +6,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators'
 import {Location} from '@angular/common';
+import { ProjectService } from 'src/app/service/database.service';
 
 @Component({
   selector: 'app-tab5',
@@ -13,14 +14,12 @@ import {Location} from '@angular/common';
   styleUrls: ['memory.page.scss']
 })
 export class Memory {
-  star=1;
   memory="";
-  happy=1;
   pos:any;
   locations:Observable<any>;
   locationsCollection:AngularFirestoreCollection<any>;
   user = null;
-  constructor(private route: ActivatedRoute,  private router: Router,private afAu : AngularFireAuth,private afs:AngularFirestore, private location: Location) {}
+  constructor(private route: ActivatedRoute,  private router: Router,private afAu : AngularFireAuth,private afs:AngularFirestore, private location: Location, private projectService:ProjectService) {}
 
   ngOnInit() {
     this.pos = this.route.snapshot.paramMap;
@@ -32,10 +31,10 @@ export class Memory {
   }
 
   login(){
-    this.afAu.signInAnonymously().then(resp => {
+    this.projectService.connect().then(resp => {
       this.user = resp.user;
-      this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
-      ,ref => ref.orderBy('timestamp'));
+      this.locationsCollection = this.projectService.getDataCollectionAsc(this.user.uid,'timestamp');
+      console.log(this.locationsCollection);
       // load data with id
       this.locations = this.locationsCollection.snapshotChanges().pipe(map(actions => actions.map(a => {
         // push id into data 
@@ -52,13 +51,11 @@ export class Memory {
   }
   
   updateMemory(text){
-    this.locationsCollection.doc(this.pos.get('id')).update({
-      memory:text,
-    })
+    this.projectService.updateMemory(this.locationsCollection,this.pos.get('id'),text)
     this.back();
   }
   
   back(){
-    this.location.back();
+    this.router.navigate(['/tabs/tab3'],{ relativeTo: this.route })
   }
 }
