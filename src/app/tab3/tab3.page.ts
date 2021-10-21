@@ -15,6 +15,7 @@ import { Router ,ActivatedRoute} from '@angular/router';
 export class Tab3Page {
   locations:Observable<any>;
   locationsCollection:AngularFirestoreCollection<any>;
+  highToLow=true;
   user = null;
   constructor(private afAu : AngularFireAuth,private afs:AngularFirestore, public zone: NgZone,private router: Router,private route: ActivatedRoute) {
     this.login();
@@ -24,8 +25,13 @@ export class Tab3Page {
     this.afAu.signInAnonymously().then(resp => {
       this.user = resp.user;
       console.log(this.user)
-      this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
-      ,ref => ref.orderBy('star','desc'));
+      if(this.highToLow){
+        this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
+        ,ref => ref.orderBy('star'));
+      } else {
+        this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
+        ,ref => ref.orderBy('star','desc'));
+      }
       console.log(this.locationsCollection)
       // load data with id
       this.locations = this.locationsCollection.snapshotChanges().pipe(map(actions => actions.map(a => {
@@ -47,7 +53,17 @@ export class Tab3Page {
   }
   
   memoryWriter(pos){
-    this.router.navigate(['rating',pos],{ relativeTo: this.route })
+    this.router.navigate(['writeMemory',pos],{ relativeTo: this.route })
     //console.log(pos)
+  }
+
+  switchSort(){
+    if(this.highToLow){
+      this.highToLow = false;
+    } else {
+      this.highToLow = true;
+    }
+    this.login()
+
   }
 }

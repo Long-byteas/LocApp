@@ -3,6 +3,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-item>
+    <ion-label>High Star To Low</ion-label>
+    <ion-checkbox slot="end" value="pepperoni" checked={{highToLow}} (ionChange)=switchSort()></ion-checkbox>
+  </ion-item>
+
     <ion-list>
       <ion-item-sliding *ngFor="let pos of locations | async">
         <ion-item>
@@ -23,16 +28,13 @@
 
         <ion-item-options side="start">
           <ion-item-option color="primary" (click)="memoryWriter(pos)">
-            <ion-icon name="pricetag-outline" slot="icon-only"></ion-icon>
+            <ion-icon name="clipboard-outline" slot="icon-only"></ion-icon>
           </ion-item-option>
         </ion-item-options>
         
       </ion-item-sliding>
     </ion-list>
     
-    <ion-content class="ion-padding">
-      <ion-button [routerLink]="['./rating']" >Go to detail</ion-button>
-    </ion-content>
 </ion-content>
 
 

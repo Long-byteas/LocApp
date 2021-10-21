@@ -11,6 +11,11 @@ import {map} from 'rxjs/operators'
   providedIn: 'root',
 })
 export class ProjectService {
+  // TODO:
+  // Rename
+  // Use Service
+  // Comment 
+  // finish tab4
     locations:Observable<any>;
     locationsCollection:AngularFirestoreCollection<any>;
     user = null;

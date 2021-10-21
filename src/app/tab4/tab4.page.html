@@ -1,18 +1,37 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 4
-    </ion-title>
-  </ion-toolbar>
+
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 4</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <ion-list>
+      <ion-item-sliding *ngFor="let pos of locations | async">
+        <ion-item>
+          <ion-label text-wrap>
+            Place: {{ pos.place }}
+            <p>
+              {{ pos.timestamp | date:'short' }}
+            </p>
+            <ion-icon *ngFor="let item of [].constructor(pos.happy); let i = index" name="happy-outline" ></ion-icon>
+          </ion-label>
 
-  <app-explore-container name="Tab 4 page"></app-explore-container>
-  
+          <ion-icon *ngFor="let item of [].constructor(pos.star); let i = index" name="star-half-outline" ></ion-icon>
+
+        </ion-item>
+ 
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="deleteLocation(pos)">
+            <ion-icon name="trash" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+        <ion-item-options side="start">
+          <ion-item-option color="primary" (click)="viewMemory(pos)">
+            <ion-icon name="eye-outline" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+        
+      </ion-item-sliding>
+    </ion-list>
 </ion-content>
+
+

@@ -15,16 +15,18 @@
   </ion-list>
   <div #map id="map" [hidden]="!user"></div>
   <div *ngIf ="user">
-    <ion-button (click)="startTracking()">
-      <ion-icon name ="locate" slot="start">
-      </ion-icon>
-      start Tracking
-    </ion-button>
-    <ion-button (click)="pushLocationInMarkerFake()" *ngIf="markersFake.length != 0">
-      <ion-icon name ="golf-outline" slot="start">
-      </ion-icon>
-      Mark
-    </ion-button>
+    <ion-item>
+      <ion-button (click)="startTracking()">
+        <ion-icon name ="locate" slot="start">
+        </ion-icon>
+        start Tracking
+      </ion-button>
+      <ion-button (click)="pushLocationInMarkerFake()" *ngIf="markersFake.length != 0">
+        <ion-icon name ="golf-outline" slot="start">
+        </ion-icon>
+        Mark
+      </ion-button>
+    </ion-item>
     <ion-item>
       <ion-label>
         UserId: {{user.uid}}
