@@ -3,11 +3,11 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Tab2Page } from './tab2.page';
+import { Tab2Page } from './mark.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { Tab2PageRoutingModule } from './tab2-routing.module';
-import { Tab5Page } from './Rating/tab5.page';
+import { Tab2PageRoutingModule } from './mark-routing.module';
+import { Tab5Page } from './Rating/rateForm.page';
 
 @NgModule({
   imports: [

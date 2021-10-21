@@ -9,8 +9,8 @@ import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-tab5',
-  templateUrl: 'tab5.page.html',
-  styleUrls: ['tab5.page.scss']
+  templateUrl: 'rateForm.page.html',
+  styleUrls: ['rateForm.page.scss']
 })
 export class Tab5Page {
   star=1;

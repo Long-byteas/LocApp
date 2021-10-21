@@ -1,21 +1,18 @@
 import { Component, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Plugins } from '@capacitor/core';
 import { Observable } from 'rxjs';
-import { Geolocation } from '@ionic-native/geolocation/ngx'
 import {map} from 'rxjs/operators'
 import { Router ,ActivatedRoute} from '@angular/router';
-
 @Component({
-  selector: 'app-tab3',
-  templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss']
+  selector: 'app-tab4',
+  templateUrl: 'rankList.page.html',
+  styleUrls: ['rankList.page.scss']
 })
-export class Tab3Page {
+
+export class Tab4Page {
   locations:Observable<any>;
   locationsCollection:AngularFirestoreCollection<any>;
-  highToLow=true;
   user = null;
   constructor(private afAu : AngularFireAuth,private afs:AngularFirestore, public zone: NgZone,private router: Router,private route: ActivatedRoute) {
     this.login();
@@ -25,13 +22,8 @@ export class Tab3Page {
     this.afAu.signInAnonymously().then(resp => {
       this.user = resp.user;
       console.log(this.user)
-      if(this.highToLow){
-        this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
-        ,ref => ref.orderBy('star'));
-      } else {
-        this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
-        ,ref => ref.orderBy('star','desc'));
-      }
+      this.locationsCollection = this.afs.collection(`locations/${this.user.uid}/track`
+      ,ref => ref.orderBy('star','asc'));
       console.log(this.locationsCollection)
       // load data with id
       this.locations = this.locationsCollection.snapshotChanges().pipe(map(actions => actions.map(a => {
@@ -52,18 +44,8 @@ export class Tab3Page {
     this.locationsCollection.doc(pos.id).delete();
   }
   
-  memoryWriter(pos){
-    this.router.navigate(['writeMemory',pos],{ relativeTo: this.route })
+  viewMemory(pos){
+    this.router.navigate(['view',pos],{ relativeTo: this.route })
     //console.log(pos)
-  }
-
-  switchSort(){
-    if(this.highToLow){
-      this.highToLow = false;
-    } else {
-      this.highToLow = true;
-    }
-    this.login()
-
   }
 }

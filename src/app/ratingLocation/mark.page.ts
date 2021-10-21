@@ -10,8 +10,8 @@ import { Router ,ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss']
+  templateUrl: 'mark.page.html',
+  styleUrls: ['mark.page.scss']
 })
 export class Tab2Page {
   locations:Observable<any>;

@@ -3,11 +3,11 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Tab3Page } from './tab3.page';
+import { Tab4Page } from './rankList.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { Tab3PageRoutingModule } from './tab3-routing.module';
-import { Memory } from './memory/memory.page';
+import { Tab4PageRoutingModule } from './rankList-routing.module';
+import { View } from './View/view.page';
 
 @NgModule({
   imports: [
@@ -15,8 +15,9 @@ import { Memory } from './memory/memory.page';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    Tab3PageRoutingModule,
+    RouterModule.forChild([{ path: '', component: Tab4Page }]),
+    Tab4PageRoutingModule,
   ],
-  declarations: [Tab3Page,Memory]
+  declarations: [Tab4Page,View]
 })
-export class Tab3PageModule {}
+export class Tab4PageModule {}

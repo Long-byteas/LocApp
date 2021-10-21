@@ -12,8 +12,8 @@ declare var google;
 
 @Component({
   selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  templateUrl: 'map.page.html',
+  styleUrls: ['map.page.scss']
 })
 export class Tab1Page {
   locations:Observable<any>;
@@ -33,8 +33,6 @@ export class Tab1Page {
   map: any;
   markers = [];
   markersFake = [];
-
-  MapAPI = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBsfw-I1JOKEYgCw0Bo7JJkR8sksIL3Rxw"
 
   constructor( private route: ActivatedRoute, private afAu : AngularFireAuth,private afs:AngularFirestore,private geolocation:Geolocation, public zone: NgZone,private projectService:ProjectService) {
     this.GoogleAutocomplete = new google.maps.places.AutocompleteService();
