@@ -6,6 +6,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { Observable } from 'rxjs';
 import {map} from 'rxjs/operators'
 import {Location} from '@angular/common';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab5',
@@ -20,7 +21,7 @@ export class Tab5Page {
   locations:Observable<any>;
   locationsCollection:AngularFirestoreCollection<any>;
   user = null;
-  constructor(private route: ActivatedRoute,  private router: Router,private afAu : AngularFireAuth,private afs:AngularFirestore, private location: Location) {}
+  constructor(private route: ActivatedRoute, public alertController: AlertController,private afAu : AngularFireAuth,private afs:AngularFirestore, private location: Location) {}
 
   ngOnInit() {
     this.pos = this.route.snapshot.paramMap;
@@ -53,6 +54,7 @@ export class Tab5Page {
     })
   }
   updateRating(){
+
     this.locationsCollection.doc(this.pos.get('id')).update({star:this.star,
       comment:this.comment,
       happy:this.happy
@@ -64,8 +66,37 @@ export class Tab5Page {
     this.location.back();
   }
   reset(){
+    this.alert()
+  }
+
+  resetItem(){
+    console.log("haha")
     this.star = 1;
     this.comment = "";
     this.happy =1;
   }
+
+  alert() {
+    this.alertController.create({
+      header: 'Confirm Alert',
+      message: 'Are you sure to delete?',
+      buttons: [
+        {
+          text: 'cancel',
+          handler: () => {
+            console.log('nothing');
+          }
+        },
+        {
+          text: 'Yes!',
+          handler: () => {
+            this.resetItem();
+          }
+        }
+      ]
+    }).then(res => {
+      res.present();
+    });
+  }
+
 }
