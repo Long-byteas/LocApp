@@ -74,7 +74,6 @@ export class Tab1Page {
   }
 
   mark(currentLoc){
-
     // make a mock  mark on location based on selected location
     this.clearMarkerFake();
     let marker = new google.maps.Marker({
@@ -100,16 +99,16 @@ export class Tab1Page {
   updateSearchResults() {
     // auto complete search bar
     // return new stuff for each seearch
-    console.log(this.isFinding)
     if (this.autocomplete.input === '') {
+      // if the searchbar is clean then clean out the list
       this.autocompleteItems = [];
       return;
     } 
-    
+
+     // google predict places and return them in autocompleteItems to display on map
     this.GoogleAutocomplete.getPlacePredictions({ input: this.autocomplete.input },
     (predictions, status) => {
       this.autocompleteItems = [];
-      // google predict places and return them in auto complete to show 
       this.zone.run(() => {
         predictions.forEach((prediction) => {
           this.autocompleteItems.push(prediction);
@@ -216,7 +215,7 @@ export class Tab1Page {
       this.markers.push(marker);
       this.map.setCenter(position);
       
-      // get the location name
+      // get the location name by using google geocoder
       this.geocoder.geocode({ 'latLng': position },(results, status) => {
         console.log(results);
         if(status === 'OK' && results[0]){
@@ -229,7 +228,7 @@ export class Tab1Page {
   }
 
   pushLocationInMarkerFake(){
-    // push all the mock marker in marker fake into db and turn them into real marker
+    // push all the mock marker in marker fake into db to turn them into real marker
     this.markersFake.forEach( marker=>{
       let position = marker.getPosition();
       this.geocoder.geocode({ 'latLng': position },(results, status) => {
@@ -241,13 +240,16 @@ export class Tab1Page {
     })
     this.clearMarkerFake()
   }
-   // add location into the db
+
+   
   addNewLocation(lat, lng, timestamp,place) {
+    // add location into the db through project service
     this.projectService.updateNewLocation(this.locationsCollection,lat,lng,timestamp,place)
   }
 
-  // delete location in db 
+  
   deleteLocation(pos) {
+    // delete location in db 
     this.projectService.delete(this.locationsCollection,pos.id)
   }
 }

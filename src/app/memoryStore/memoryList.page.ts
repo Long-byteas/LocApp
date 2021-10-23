@@ -28,10 +28,9 @@ export class Tab3Page {
       } else {
         this.locationsCollection = this.projectService.getDataCollectionAsc(this.user.uid,'star');
       }
-      console.log(this.locationsCollection)
       // load locations with id
       this.locations = this.locationsCollection.snapshotChanges().pipe(map(actions => actions.map(a => {
-        // push id into each location
+        // push id into each location in locations
         const data = a.payload.doc.data()
         const id = a.payload.doc.id;
         return {id, ...data};
@@ -43,13 +42,14 @@ export class Tab3Page {
  
 
   deleteLocation(pos) {
-    // this.locationsCollection.doc(pos.id).delete();
+    // deleting a location
     this.projectService.delete(this.locationsCollection,pos.id)
   }
   
   memoryWriter(pos){
+    // navigating to memory page with the location information
+    // so that the user can add their memory and push them into the db
     this.router.navigate(['writeMemory',pos],{ relativeTo: this.route })
-    //console.log(pos)
   }
 
   switchSort(){

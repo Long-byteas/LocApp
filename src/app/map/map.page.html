@@ -1,5 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <!-- search bar that use auto complete search  -->
     <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place">
     </ion-searchbar>
     
@@ -13,6 +14,7 @@
       {{ item.description }}
     </ion-item>
   </ion-list>
+  <!-- map displayed -->
   <div #map id="map" [hidden]="!user"></div>
   <div *ngIf ="user">
     <ion-item>
@@ -21,6 +23,7 @@
         </ion-icon>
         start Tracking
       </ion-button>
+      <!-- button to push the mock marker to the db -->
       <ion-button (click)="pushLocationInMarkerFake()" *ngIf="markersFake.length != 0">
         <ion-icon name ="golf-outline" slot="start">
         </ion-icon>
@@ -34,6 +37,7 @@
     </ion-item>
   </div>
 
+  <!-- skeleton page while loading user  -->
   <div *ngIf="!user">
     <div class="ion-padding custom-skeleton">
       <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
