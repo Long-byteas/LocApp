@@ -7,7 +7,7 @@ import { Tab2Page } from './mark.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { Tab2PageRoutingModule } from './mark-routing.module';
-import { Tab5Page } from './Rating/rateForm.page';
+import { RateForm } from './Rating/rateForm.page';
 
 @NgModule({
   imports: [
@@ -18,6 +18,6 @@ import { Tab5Page } from './Rating/rateForm.page';
     Tab2PageRoutingModule,
     
   ],
-  declarations: [Tab2Page,Tab5Page]
+  declarations: [Tab2Page,RateForm]
 })
 export class Tab2PageModule {}

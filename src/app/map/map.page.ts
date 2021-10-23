@@ -12,7 +12,9 @@ declare var google;
   styleUrls: ['map.page.scss']
 })
 export class Tab1Page {
+  // user visited locations list
   locations:Observable<any>;
+  // datacollection in firebase
   locationsCollection:AngularFirestoreCollection<any>;
   user = null;
   GoogleAutocomplete: any;
@@ -20,14 +22,16 @@ export class Tab1Page {
   autocompleteItems: any;
   autocomplete:any;
   geocoder: any
-  isFinding =  false;
   infoWindow:any;
   pos:any;
   
   //map and marker on it 
   @ViewChild('map') mapElement: ElementRef;
   map: any;
+  // all the locations from user data
   markers = [];
+  // marker fake is when the user click on a location to mock mark it
+  // it can be converted into real one by pushing into the database
   markersFake = [];
 
   constructor( public zone: NgZone,private projectService:ProjectService) {
@@ -118,7 +122,7 @@ export class Tab1Page {
   }
 
   login(){
-    // login into a anoymus account on firebase for every devices
+    // login into a anoymus account on firebase (every devices will have a unique account)
     this.projectService.connect().then(resp => {
       // get the log user
       this.user = resp.user;
@@ -189,24 +193,22 @@ export class Tab1Page {
     });
     
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-    // make mock mark on the map when the user click on map
+    // make a mock mark on the map when the user click on map
     this.map.addListener("click", (mapsMouseEvent) => {
       // Close the current InfoWindow.
       this.mark(mapsMouseEvent.latLng)
     });
   }
 
-  isTracking = false;
   startTracking(){
-    // tracking user location to return stuff
-    this.isTracking  = true;
+    // tracking user location
     // get the current location and put a mark on it
     this.projectService.getCurrentLocation().then((resp) => {
+      // get the lat long and convert them
       var lat = resp.coords.latitude;
       var lng = resp.coords.longitude;
-      console.log(resp.coords.latitude)
-      console.log(resp.coords.longitude)
       let position = new google.maps.LatLng(lat, lng);
+      // add a red marker into the found the location 
       let marker = new google.maps.Marker({
         position: position,
         map: this.map,
@@ -215,7 +217,7 @@ export class Tab1Page {
       this.markers.push(marker);
       this.map.setCenter(position);
       
-      // get the location name by using google geocoder
+      // get the current location name by using google geocoder
       this.geocoder.geocode({ 'latLng': position },(results, status) => {
         console.log(results);
         if(status === 'OK' && results[0]){

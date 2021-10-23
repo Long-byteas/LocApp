@@ -11,7 +11,8 @@ import { ProjectService } from 'src/app/service/database.service';
   templateUrl: 'rateForm.page.html',
   styleUrls: ['rateForm.page.scss']
 })
-export class Tab5Page {
+// this is the form the user use to rate a location
+export class RateForm {
   star=1;
   comment="";
   happy=1;
@@ -22,10 +23,10 @@ export class Tab5Page {
   constructor(private route: ActivatedRoute, public alertController: AlertController,private afAu : AngularFireAuth,private afs:AngularFirestore, private router: Router,private projectService:ProjectService) {}
 
   ngOnInit() {
-    // get the information of location to update into db
+    // get the information of location 
     this.pos = this.route.snapshot.paramMap;
     this.login()
-    // if the data exists then display it and allow to be midified
+    // if the user rate this location before then display old comments and allow them to be modified
     if(this.pos.get('id') != undefined){
       this.star = this.pos.get('star');
       this.happy = this.pos.get('happy');
@@ -34,7 +35,7 @@ export class Tab5Page {
   }
 
   login(){
-    // login to get the user db and to modify it
+    // login to point to the user db (to modify it)
     this.projectService.connect().then(resp => {
       this.user = resp.user;
       this.locationsCollection = this.projectService.getDataCollectionAsc(this.user.uid,'timestamp');
@@ -63,7 +64,7 @@ export class Tab5Page {
   }
 
   alert() {
-    // alert the user before refreshing
+    // alert the user before refreshing his form
     this.alertController.create({
       header: 'Confirm Alert',
       message: 'Are you sure to delete?',

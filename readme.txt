@@ -1,4 +1,16 @@
-This is a document for the project
+Project description:
+The project is an app that aim to store the user's personal comments, ranks on a visited location so that he/she can reread and decide where to go on the future trips. 
+The project is written on ionic angular. 
+
+To run :
+import the project into vsCode.
+Run "npm install (or npx install)" to install all the dependencies
+run "ionic serve" to start project 
+To run on a device, run: ionic capacitor build android
+Plug your device, select your device on android studio and run to install it into your device.
+
+
+This is a document for the project architechture
     Main will be in the src\app itself, it is calling tabs to control 4 main screens
     Main also have app\environment contains the required api link for the map and information about firebase to connect
     src\app\tabs will calling and contructing 4 main screens. it also allow user to navigate between screen by pressing button

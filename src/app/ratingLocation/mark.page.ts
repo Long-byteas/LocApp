@@ -1,9 +1,6 @@
-import { Component, ViewChild, ElementRef, NgZone } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Plugins } from '@capacitor/core';
+import { Component} from '@angular/core';
+import { AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
-import { Geolocation } from '@ionic-native/geolocation/ngx'
 import {map} from 'rxjs/operators'
 import { Router ,ActivatedRoute} from '@angular/router';
 import { ProjectService } from '../service/database.service';

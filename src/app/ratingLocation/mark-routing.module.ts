@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Tab2Page } from './mark.page';
-import { Tab5Page } from './Rating/rateForm.page';
+import { RateForm } from './Rating/rateForm.page';
 
 const routes: Routes = [
   {
@@ -11,7 +11,7 @@ const routes: Routes = [
   },
   {
     path: 'rating',
-    component: Tab5Page,
+    component: RateForm,
     pathMatch: 'full'
   },
   
