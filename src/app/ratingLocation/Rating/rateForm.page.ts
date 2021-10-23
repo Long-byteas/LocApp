@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
-import {map} from 'rxjs/operators'
-import {Location} from '@angular/common';
 import { AlertController } from '@ionic/angular';
 import { ProjectService } from 'src/app/service/database.service';
 
@@ -25,9 +22,10 @@ export class Tab5Page {
   constructor(private route: ActivatedRoute, public alertController: AlertController,private afAu : AngularFireAuth,private afs:AngularFirestore, private router: Router,private projectService:ProjectService) {}
 
   ngOnInit() {
+    // get the information of location to update into db
     this.pos = this.route.snapshot.paramMap;
     this.login()
-    console.log(this.pos.get('id'))
+    // if the data exists then display it and allow to be midified
     if(this.pos.get('id') != undefined){
       this.star = this.pos.get('star');
       this.happy = this.pos.get('happy');
@@ -36,29 +34,20 @@ export class Tab5Page {
   }
 
   login(){
+    // login to get the user db and to modify it
     this.projectService.connect().then(resp => {
       this.user = resp.user;
       this.locationsCollection = this.projectService.getDataCollectionAsc(this.user.uid,'timestamp');
-      // load data with id
-      this.locations = this.locationsCollection.snapshotChanges().pipe(map(actions => actions.map(a => {
-        // push id into data 
-        const data = a.payload.doc.data()
-        const id = a.payload.doc.id;
-        return {id, ...data};
-      })));
-      console.log(this.locations)
-      this.locations.subscribe(res =>(console.log(res)));
-      //calling update
-      // update map
-
     })
   }
   updateRating(){
+    // add the rating into the database
     this.projectService.updateRating(this.locationsCollection,this.pos.get('id'),this.star,this.comment,this.happy)
     this.back()
   }
   
   back(){
+    // going bacck to tab2 ( mark.html )
     this.router.navigate(['/tabs/tab2'],{ relativeTo: this.route })
   }
   reset(){
@@ -66,6 +55,7 @@ export class Tab5Page {
   }
 
   resetItem(){
+    // refresh
     console.log("haha")
     this.star = 1;
     this.comment = "";
@@ -73,17 +63,19 @@ export class Tab5Page {
   }
 
   alert() {
+    // alert the user before refreshing
     this.alertController.create({
       header: 'Confirm Alert',
       message: 'Are you sure to delete?',
       buttons: [
         {
+          // cancel option
           text: 'cancel',
           handler: () => {
             console.log('nothing');
           }
         },
-        {
+        {// agree options
           text: 'Yes!',
           handler: () => {
             this.resetItem();

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { Tab1Page } from './map.page';
 
 const routes: Routes = [
+  // path for the website
   {
     path: '',
     component: Tab1Page,

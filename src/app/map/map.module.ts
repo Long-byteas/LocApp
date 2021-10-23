@@ -5,9 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { Tab1Page } from './map.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { Tab1PageRoutingModule } from './map-routing.module';
-import { environment } from 'src/environments/environment';
 
-
+// import require module for html to use ts
 @NgModule({
   imports: [
     IonicModule,
@@ -15,7 +14,6 @@ import { environment } from 'src/environments/environment';
     FormsModule,
     ExploreContainerComponentModule,
     Tab1PageRoutingModule,
-   
   ],
 
   declarations: [Tab1Page]

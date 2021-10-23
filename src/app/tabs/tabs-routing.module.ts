@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
+  // for each tab we import different tab files
   {
     path: 'tabs',
     component: TabsPage,

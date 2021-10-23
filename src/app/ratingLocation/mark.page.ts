@@ -18,19 +18,19 @@ export class Tab2Page {
   locations:Observable<any>;
   locationsCollection:AngularFirestoreCollection<any>;
   user = null;
-  constructor(private afAu : AngularFireAuth,private afs:AngularFirestore, public zone: NgZone,private router: Router,private route: ActivatedRoute,private projectService:ProjectService) {
+  constructor(private router: Router,private route: ActivatedRoute,private projectService:ProjectService) {
     this.login();
   }
 
   login(){
+    // connect to the db to get the user 
     this.projectService.connect().then(resp => {
       this.user = resp.user;
-      console.log(this.user)
+      // get the  data collection
       this.locationsCollection = this.projectService.getDataCollectionDesc(this.user.uid,'timestamp');
-      console.log(this.locationsCollection)
-      // load data with id
+      // load locations
       this.locations = this.locationsCollection.snapshotChanges().pipe(map(actions => actions.map(a => {
-        // push id into data 
+        // push id-key of location into corresponding location 
         const data = a.payload.doc.data()
         const id = a.payload.doc.id;
         return {id, ...data};
@@ -45,15 +45,19 @@ export class Tab2Page {
   }
   
   ratingLocation(pos){
+    // navigating to rating page with the corresponding location
+    // so the page can modify it in firebase
     this.router.navigate(['rating',pos],{ relativeTo: this.route })
     //console.log(pos)
   }
 
   selectPos(pos){
+    // mark the location so it can be targeted inside the map
     this.projectService.markLoc(this.locationsCollection,pos.id)
   }
 
   deSelectPos(pos){
+    // demark the location so it can't be targeted inside the map
     this.projectService.demarkLoc(this.locationsCollection,pos.id)
   }
 }
