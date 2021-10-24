@@ -6,16 +6,14 @@
     <ion-title> Rating Form </ion-title>
   </ion-toolbar>
 </ion-header>
-
+ <!-- a form for user to add review -->
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Tab 5</ion-title>
     </ion-toolbar>
   </ion-header>
-
-
-
+  <!-- changing star and happy score-->
   <ion-item>
     <ion-range color="medium" min="1" max="5" step="1" snaps="true" [(ngModel)]="star" >
       <ion-icon slot="start" name="star-outline"></ion-icon>
@@ -29,7 +27,7 @@
       <ion-icon slot="start" name="sad-outline"></ion-icon>
     </ion-range>
   </ion-item>
-
+  <!-- text field to add comments -->
   <ion-item>
     <ion-label position="stacked" class="my-label">Comments</ion-label>
     <ion-textarea [(ngModel)]="comment" spellcheck=true rows="10" autoGrow=true autocapitalize=true placeholder="your comment about this place"></ion-textarea>
