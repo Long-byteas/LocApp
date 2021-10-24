@@ -14,7 +14,7 @@ const routes: Routes = [
       },
       {
         path: 'tab2',
-        loadChildren: () => import('../ratingLocation/mark.module').then(m => m.Tab2PageModule)
+        loadChildren: () => import('../ratingLocation/review.module').then(m => m.Tab2PageModule)
       },
       {
         path: 'tab3',

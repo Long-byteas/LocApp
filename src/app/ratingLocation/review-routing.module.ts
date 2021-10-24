@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { Tab2Page } from './mark.page';
+import { Tab2Page } from './review.page';
 import { RateForm } from './Rating/rateForm.page';
 
 const routes: Routes = [

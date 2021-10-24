@@ -8,8 +8,8 @@ import { ProjectService } from '../service/database.service';
 
 @Component({
   selector: 'app-tab2',
-  templateUrl: 'mark.page.html',
-  styleUrls: ['mark.page.scss']
+  templateUrl: 'review.page.html',
+  styleUrls: ['review.page.scss']
 })
 export class Tab2Page {
   locations:Observable<any>;
