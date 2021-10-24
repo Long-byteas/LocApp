@@ -1,6 +1,6 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title>Comment on location</ion-title>
+    <ion-title>Add Comment To Location</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -16,7 +16,7 @@
           </ion-label>
           <ion-icon name="chatbox-ellipses-outline"  *ngIf = "pos.star != null" ></ion-icon>
         </ion-item>
- 
+        <!-- delete, target location and add comment button -->
         <ion-item-options side="end">
           <ion-item-option color="danger" (click)="deleteLocation(pos)">
             <ion-icon name="trash" slot="icon-only"></ion-icon>

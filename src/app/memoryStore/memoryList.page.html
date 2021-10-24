@@ -1,6 +1,6 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title> Memory to location </ion-title>
+    <ion-title> Memory To Location </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -21,7 +21,7 @@
           </ion-label>
           <ion-icon *ngFor="let item of [].constructor(pos.star); let i = index" name="star-half-outline" ></ion-icon>
         </ion-item>
- 
+        <!-- side button to navigate or delete -->
         <ion-item-options side="end">
           <ion-item-option color="danger" (click)="deleteLocation(pos)">
             <ion-icon name="trash" slot="icon-only"></ion-icon>

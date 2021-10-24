@@ -1,6 +1,6 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title> Location Rank </ion-title>
+    <ion-title> Location Rank Board </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,6 +13,7 @@
             <p>
               {{ pos.timestamp | date:'short' }}
             </p>
+            <!-- show happy and star for each location -->
             <ion-icon *ngFor="let item of [].constructor(pos.happy); let i = index" name="happy-outline" ></ion-icon>
           </ion-label>
 

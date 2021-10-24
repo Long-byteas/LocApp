@@ -19,7 +19,6 @@ export class Memory {
     // getting information about this location
     this.pos = this.route.snapshot.paramMap;
     this.login()
-    console.log(this.pos.get('id'))
     // if memory already exist in the locations, display it
     if(this.pos.get('memory') != undefined){
       this.memory =  this.pos.get('memory')
