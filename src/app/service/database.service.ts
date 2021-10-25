@@ -11,6 +11,11 @@ export class ProjectService {
 
   constructor(private afAu : AngularFireAuth,private afs:AngularFirestore,private geolocation:Geolocation,) {
   }
+  
+  getCurrentLocation():any{
+    // return geolocation using geolocation sensor
+    return this.geolocation.getCurrentPosition();
+  }
   getDataCollectionAsc(id,baseOn):any {
     // get data collection of user's id and return it in acs way
     return this.afs.collection(`locations/${id}/track`
@@ -75,9 +80,6 @@ export class ProjectService {
     return this.afAu.signInAnonymously()
   }
 
-  getCurrentLocation():any{
-    // return geolocation using geolocation sensor
-    return this.geolocation.getCurrentPosition();
-  }
+
 
 }

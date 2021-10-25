@@ -6,8 +6,7 @@ import { Router ,ActivatedRoute} from '@angular/router';
 import { ProjectService } from '../service/database.service';
 @Component({
   selector: 'app-tab4',
-  templateUrl: 'rankList.page.html',
-  styleUrls: ['rankList.page.scss']
+  templateUrl: 'rankList.page.html'
 })
 
 export class Tab4Page {

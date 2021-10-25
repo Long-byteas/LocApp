@@ -7,8 +7,7 @@ import { ProjectService } from '../service/database.service';
 
 @Component({
   selector: 'app-tab3',
-  templateUrl: 'memoryList.page.html',
-  styleUrls: ['memoryList.page.scss']
+  templateUrl: 'memoryList.page.html'
 })
 export class Tab3Page {
   locations:Observable<any>;
