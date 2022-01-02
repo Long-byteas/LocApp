@@ -1,0 +1,31 @@
+
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title> MemoryWriter </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Memory</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+  <ion-item>
+    <ion-label position="stacked" class="my-label"> Your Memory ...</ion-label>
+    <ion-textarea class="textfield" value={{memory}} spellcheck=true rows="5" autoGrow=true autocapitalize=true #textfield placeholder="Your precious memory "></ion-textarea>
+  </ion-item>
+
+  <ion-footer>
+    <ion-button color= "light" shape="round"  expand="block" (click)="updateMemory(textfield.value)">
+      Add
+    </ion-button>
+  </ion-footer>
+  
+</ion-content>

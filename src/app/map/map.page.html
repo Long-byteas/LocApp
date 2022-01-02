@@ -1,0 +1,55 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <!-- search bar that use auto complete search  -->
+    <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Search for a place">
+    </ion-searchbar>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-list [hidden]="autocompleteItems.length == 0">
+    <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
+      {{ item.description }}
+    </ion-item>
+  </ion-list>
+  <!-- map displayed -->
+  <div #map id="map" [hidden]="!user"></div>
+  <div *ngIf ="user">
+    <ion-item>
+      <ion-button (click)="startTracking()">
+        <ion-icon name ="locate" slot="start">
+        </ion-icon>
+        start Tracking
+      </ion-button>
+      <!-- button to push the mock marker to the db -->
+      <ion-button (click)="pushLocationInMarkerFake()" *ngIf="markersFake.length != 0">
+        <ion-icon name ="golf-outline" slot="start">
+        </ion-icon>
+        Mark
+      </ion-button>
+    </ion-item>
+  </div>
+
+  <!-- skeleton page while loading user  -->
+  <div *ngIf="!user">
+    <div class="ion-padding custom-skeleton">
+      <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+      <ion-skeleton-text animated></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+    </div>
+    <ion-list-header>
+      <ion-label>
+        <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+      </ion-label>
+    </ion-list-header>
+    <ion-list>
+      <ion-item>
+        <ion-skeleton-text animated style="width: 1000px; height: 300px" slot="start"></ion-skeleton-text>
+        <ion-label>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

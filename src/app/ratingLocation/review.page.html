@@ -1,0 +1,45 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Add Location's Review</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-list>
+      <ion-item-sliding *ngFor="let pos of locations | async">
+        <ion-item>
+          <ion-label text-wrap>
+            Place: {{ pos.place }}
+            <p>
+              {{ pos.timestamp | date:'short' }}
+            </p>
+          </ion-label>
+          <ion-icon name="chatbox-ellipses-outline"  *ngIf = "pos.star != null" ></ion-icon>
+        </ion-item>
+        <!-- delete, target and add comment to location buttons -->
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="deleteLocation(pos)">
+            <ion-icon name="trash" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+        <ion-item-options side="start">
+          <ion-item-option color="secondary" (click)="selectPos(pos)" *ngIf="!pos.tag">
+            <ion-icon name="navigate-circle-outline" slot="icon-only"></ion-icon>
+          </ion-item-option>
+
+          <ion-item-option color="light" (click)="deSelectPos(pos)" *ngIf="pos.tag">
+            <ion-icon name="navigate-circle-outline" slot="icon-only"></ion-icon>
+          </ion-item-option>
+
+          <ion-item-option color="primary" (click)="ratingLocation(pos)">
+            <ion-icon name="clipboard-outline" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+
+      </ion-item-sliding>
+    </ion-list>
+  
+</ion-content>
+
+
